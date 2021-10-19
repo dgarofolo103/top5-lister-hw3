@@ -8,19 +8,19 @@ import jsTPS_Transaction from "../common/jsTPS.js"
     @author McKilla Gorilla
  */
 export default class ChangeItem_Transaction extends jsTPS_Transaction {
-    constructor(initStore, initOldText, initNewText) {
+    constructor(initStore, initId, initOldText, initNewText) {
         super();
         this.store = initStore;
+        this.id = initId;
         this.oldText = initOldText;
         this.newText = initNewText;
     }
 
     doTransaction() {
-        console.log(this.oldText, this.newText);
-        this.store.changeItem(this.oldText, this.newText);
+        this.store.changeItem(this.id, this.newText);
     }
     
     undoTransaction() {
-        this.store.changeItem(this.newText, this.oldText);
+        this.store.changeItem(this.id, this.oldText);
     }
 }

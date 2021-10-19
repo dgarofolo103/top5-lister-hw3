@@ -206,18 +206,14 @@ export const useGlobalStore = () => {
         }
         asyncSetCurrentList(id);
     }
-    store.addChangeItemTransaction = function (oldText, newText) {
+    store.addChangeItemTransaction = function (id, oldText, newText) {
         console.log("addChangeItem Successful");
-        let transaction = new ChangeItem_Transaction(store, oldText, newText);
+        let transaction = new ChangeItem_Transaction(store, id, oldText, newText);
         tps.addTransaction(transaction);
     }
-    store.changeItem = function (oldText, newText) {
+    store.changeItem = function (id, text) {
         let items = this.currentList.items;
-        for (let i = 0; i < items.length; i++) { //Not the most elegant implementation
-            if (items[i] == oldText) {
-                items[i] = newText;
-            }
-        }
+        items[id] = text;
 
         store.updateCurrentList();
     }

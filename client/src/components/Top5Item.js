@@ -53,7 +53,7 @@ function Top5Item(props) {
             let newValue = newText;
             let oldValue = props.text;
 
-            store.addChangeItemTransaction(oldValue, newValue);
+            store.addChangeItemTransaction(props.index, oldValue, newValue);
         }
     }
 
