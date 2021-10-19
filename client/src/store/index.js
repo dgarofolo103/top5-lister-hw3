@@ -175,6 +175,7 @@ export const useGlobalStore = () => {
             type: GlobalStoreActionType.CLOSE_CURRENT_LIST,
             payload: {}
         });
+        tps.clearAllTransactions();
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
@@ -274,6 +275,13 @@ export const useGlobalStore = () => {
         tps.doTransaction();
     }
 
+    store.isUndoEmpty = function () {
+        return !(tps.hasTransactionToUndo());
+    }
+    store.isRedoEmpty = function () {
+        return !(tps.hasTransactionToRedo());
+    }
+
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME
     store.setIsListNameEditActive = function () {
         storeReducer({
@@ -313,12 +321,14 @@ export const useGlobalStore = () => {
     store.deleteMarkedList = function () {
         async function deleteList() {   
             let response = await api.deleteTop5ListById(store.listMarkedForDeletion._id);
+            if (response.data.success) {
+                storeReducer({
+                    type: GlobalStoreActionType.SET_LIST_MARKED_FOR_DELETION,
+                    payload: null
+                });
+            }
         }
         deleteList();
-        storeReducer({
-            type: GlobalStoreActionType.SET_LIST_MARKED_FOR_DELETION,
-            payload: null
-        });
         let modal = document.getElementById("delete-modal");
         modal.classList.remove("is-visible");
     }
