@@ -301,9 +301,26 @@ export const useGlobalStore = () => {
     store.hideDeleteListModal = function () {
         let modal = document.getElementById("delete-modal");
         modal.classList.remove("is-visible");
+        async function asyncSetListForDeletion() {
+            storeReducer({
+                type: GlobalStoreActionType.SET_LIST_MARKED_FOR_DELETION,
+                payload: null
+            });
+        }
+        asyncSetListForDeletion();
     }
 
     store.deleteMarkedList = function () {
+        async function deleteList() {   
+            let response = await api.deleteTop5ListById(store.listMarkedForDeletion._id);
+        }
+        deleteList();
+        storeReducer({
+            type: GlobalStoreActionType.SET_LIST_MARKED_FOR_DELETION,
+            payload: null
+        });
+        let modal = document.getElementById("delete-modal");
+        modal.classList.remove("is-visible");
     }
 
     // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT

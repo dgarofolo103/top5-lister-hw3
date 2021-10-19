@@ -12,6 +12,7 @@ function EditToolbar() {
     const history = useHistory();
 
     let enabledButtonClass = "top5-button";
+    let closeButtonClass = "top5-button";
     function handleUndo() {
         store.undo();
     }
@@ -26,6 +27,10 @@ function EditToolbar() {
     if (store.isListNameEditActive) {
         editStatus = true;
     }
+    if (store.currentList == null) {
+        closeButtonClass = "top5-button-disabled"
+    }
+
     return (
         <div id="edit-toolbar">
             <div
@@ -46,7 +51,7 @@ function EditToolbar() {
                 disabled={editStatus}
                 id='close-button'
                 onClick={handleClose}
-                className={enabledButtonClass}>
+                className={closeButtonClass}>
                 &#x24E7;
             </div>
         </div>
