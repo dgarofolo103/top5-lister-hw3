@@ -145,6 +145,13 @@ export const useGlobalStore = () => {
         }
         async function createNewList(payload) {
             let response = await api.createTop5List(payload)
+            if (response.data.success) {
+                storeReducer({
+                    type: GlobalStoreActionType.SET_CURRENT_LIST,
+                    payload: response.data.top5List
+                });
+                store.history.push("/top5list/" + response.data.top5List._id);
+            }
         }
         createNewList(payload);
     }
