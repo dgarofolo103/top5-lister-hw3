@@ -47,7 +47,7 @@ export const useGlobalStore = () => {
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
                 return setStore({
                     idNamePairs: payload.idNamePairs,
-                    currentList: payload.top5List,
+                    currentList: store.currentList,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
@@ -321,6 +321,7 @@ export const useGlobalStore = () => {
     store.deleteMarkedList = function () {
         async function deleteList() {   
             let response = await api.deleteTop5ListById(store.listMarkedForDeletion._id);
+            store.loadIdNamePairs();
             if (response.data.success) {
                 storeReducer({
                     type: GlobalStoreActionType.SET_LIST_MARKED_FOR_DELETION,
